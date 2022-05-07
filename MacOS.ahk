@@ -100,11 +100,7 @@ return
 ^del::FileRecycleEmpty ; win + del
 return
 
-Capslock::
-Send {LWin down}{Space down}
-KeyWait, LWin
-Send {Space up}{Lwin up}
-return
+$CapsLock::Send {Alt Down}{Shift Down}{Shift Up}{Alt Up}
 
 ^h::WinMinimize, A ; Ctrl+Down
 return
