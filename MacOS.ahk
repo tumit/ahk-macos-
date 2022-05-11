@@ -27,7 +27,49 @@ $!n::Send ^n
 $!q::Send !{f4}
 $!r::Send ^{f5}
 $!m::Send {LWin Down}{Down}{LWin Up}
-$!`::Send {Alt Down}{Shift Down}{Tab}{Shift Up}
+; $!`::Send {Alt Down}{Shift Down}{Tab}{Shift Up}
+
+!`:: ; Next window
+WinGetClass, ActiveClass, A
+WinGet, WinClassCount, Count, ahk_class %ActiveClass%
+IF WinClassCount = 1
+    Return
+Else
+WinGet, List, List, % "ahk_class " ActiveClass
+Loop, % List
+{
+    index := List - A_Index + 1
+    WinGet, State, MinMax, % "ahk_id " List%index%
+    if (State <> -1)
+    {
+        WinID := List%index%
+        break
+    }
+}
+WinActivate, % "ahk_id " WinID
+return
+
+!^`:: ; Last window
+WinGetClass, ActiveClass, A
+WinGet, WinClassCount, Count, ahk_class %ActiveClass%
+IF WinClassCount = 1
+    Return
+Else
+WinGet, List, List, % "ahk_class " ActiveClass
+Loop, % List
+{
+    index := List - A_Index + 1
+    WinGet, State, MinMax, % "ahk_id " List%index%
+    if (State <> -1)
+    {
+        WinID := List%index%
+        break
+    }
+}
+WinActivate, % "ahk_id " WinID
+return
+
+$!p::Send ^p
 
 ; Quick Switch Tab shotcuts
 
@@ -46,8 +88,6 @@ $!0::Send ^0
 
 $!t::Send ^t
 $!+t::Send ^+t
-$!+]::Send {Ctrl Down}{Tab Down}{Tab Up}{Ctrl Up}
-$!+[::Send {Ctrl Down}{Shift Down}{Tab Down}{Tab Up}{Shift Up}{Ctrl Up}
 $!l::Send ^l
 
 ; input methods
@@ -61,11 +101,6 @@ $!Left::Send {Home}
 $!Right::Send {End}
 $!Up::Send {Lctrl down}{Home}{Lctrl up}
 $!Down::Send {Lctrl down}{End}{Lctrl up}
-
-$#Left::Send {ctrl down}{Left}{ctrl up}
-$#Right::Send {ctrl down}{Right}{ctrl up}
-$#+Left::Send {ctrl down}{shift down}{Left}{shift up}{ctrl up}
-$#+Right::Send {ctrl down}{shift down}{Right}{shift up}{ctrl up}
 
 $!+Left::Send {shift down}{Home}{shift up}
 $!+Right::Send {shift down}{End}{shift up}
